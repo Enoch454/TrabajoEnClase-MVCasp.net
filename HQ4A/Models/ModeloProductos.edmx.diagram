@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="44b82b8157b749a7b97b51342137732e" Name="Diagram1" ZoomLevel="97">
+        <EntityTypeShape EntityType="HQ4AModel.Productos" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="HQ4AModel.Proveedores" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HQ4AModel.Usuarios" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="HQ4AModel.fk_prod_prov" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="HQ4AModel.Roles" Width="1.5" PointX="5.25" PointY="5.875" />
+        <AssociationConnector Association="HQ4AModel.fk_ro_usu" />
+        <EntityTypeShape EntityType="HQ4AModel.DetalleVentas" Width="1.5" PointX="5.25" PointY="8.625" />
+        <EntityTypeShape EntityType="HQ4AModel.Ventas" Width="1.5" PointX="3" PointY="8.75" />
+        <AssociationConnector Association="HQ4AModel.fk_det_venta" />
+        <AssociationConnector Association="HQ4AModel.fk_venta_cliente" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

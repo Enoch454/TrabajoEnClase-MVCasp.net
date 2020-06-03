@@ -1,0 +1,49 @@
+﻿@model IEnumerable<HQ4A.Models.DetalleVentas>
+
+@{
+    ViewBag.Title = "Detalle de Venta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalle de Venta</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Precio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cantidad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subtotal)
+        </th>
+        
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subtotal)
+            </td>
+            
+        </tr>
+    }
+
+</table>
+
+@Html.ActionLink("Regresar", "consultarVentas", "Productos", null, new { @class = "btn btn-success" })
+

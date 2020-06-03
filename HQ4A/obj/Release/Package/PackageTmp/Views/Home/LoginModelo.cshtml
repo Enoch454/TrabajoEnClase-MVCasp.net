@@ -1,0 +1,22 @@
+﻿@model HQ4A.Models.Login
+
+@{
+    ViewBag.Title = "LoginModelo";
+}
+
+<div class="form-group row">
+    <div class="col-md-6">
+        @using (Html.BeginForm())
+        {
+            @Html.DisplayNameFor(x => x.Usuario)
+            @Html.EditorFor(x => x.Usuario, new { htmlAttributes = new { @class = "form-control", @type="text" } })
+            <br />
+            @Html.DisplayNameFor(x => x.Password)
+            @Html.EditorFor(x => x.Password, new { htmlAttributes = new { @class = "form-control", @type="password" } })
+            <br />
+            <input type="submit" value="Iniciar Sesión" class="btn btn-primary btn-sm" />
+        }
+        <p class="text-danger mt-3">@ViewBag.Error</p>
+    </div>
+</div>
+

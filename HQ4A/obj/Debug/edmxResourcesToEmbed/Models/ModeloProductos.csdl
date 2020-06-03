@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HQ4AModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Productos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombreProducto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Stock" Type="Int32" />
+    <Property Name="IdProveedor" Type="Int32" />
+    <NavigationProperty Name="Proveedores" Relationship="Self.fk_prod_prov" FromRole="Productos" ToRole="Proveedores" />
+  </EntityType>
+  <EntityType Name="Proveedores">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombreProveedor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Correo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="RFC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Productos" Relationship="Self.fk_prod_prov" FromRole="Proveedores" ToRole="Productos" />
+  </EntityType>
+  <EntityType Name="Usuarios">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Pwd" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IdRol" Type="Int32" />
+    <NavigationProperty Name="Roles" Relationship="HQ4AModel.fk_ro_usu" FromRole="Usuarios" ToRole="Roles" />
+    <NavigationProperty Name="Ventas" Relationship="HQ4AModel.fk_venta_cliente" FromRole="Usuarios" ToRole="Ventas" />
+  </EntityType>
+  <Association Name="fk_prod_prov">
+    <End Role="Proveedores" Type="Self.Proveedores" Multiplicity="0..1" />
+    <End Role="Productos" Type="Self.Productos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proveedores">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Productos">
+        <PropertyRef Name="IdProveedor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HQ4AEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Productos" EntityType="Self.Productos" />
+    <EntitySet Name="Proveedores" EntityType="Self.Proveedores" />
+    <EntitySet Name="Usuarios" EntityType="Self.Usuarios" />
+    <AssociationSet Name="fk_prod_prov" Association="Self.fk_prod_prov">
+      <End Role="Proveedores" EntitySet="Proveedores" />
+      <End Role="Productos" EntitySet="Productos" />
+    </AssociationSet>
+    <EntitySet Name="Roles" EntityType="HQ4AModel.Roles" />
+    <AssociationSet Name="fk_ro_usu" Association="HQ4AModel.fk_ro_usu">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Usuarios" EntitySet="Usuarios" />
+    </AssociationSet>
+    <EntitySet Name="DetalleVentas" EntityType="HQ4AModel.DetalleVentas" />
+    <EntitySet Name="Ventas" EntityType="HQ4AModel.Ventas" />
+    <AssociationSet Name="fk_det_venta" Association="HQ4AModel.fk_det_venta">
+      <End Role="Ventas" EntitySet="Ventas" />
+      <End Role="DetalleVentas" EntitySet="DetalleVentas" />
+    </AssociationSet>
+    <AssociationSet Name="fk_venta_cliente" Association="HQ4AModel.fk_venta_cliente">
+      <End Role="Usuarios" EntitySet="Usuarios" />
+      <End Role="Ventas" EntitySet="Ventas" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Rol" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Usuarios" Relationship="HQ4AModel.fk_ro_usu" FromRole="Roles" ToRole="Usuarios" />
+  </EntityType>
+  <Association Name="fk_ro_usu">
+    <End Type="HQ4AModel.Roles" Role="Roles" Multiplicity="0..1" />
+    <End Type="HQ4AModel.Usuarios" Role="Usuarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Usuarios">
+        <PropertyRef Name="IdRol" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="DetalleVentas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Cantidad" Type="Int32" />
+    <Property Name="Subtotal" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Id_venta" Type="Int32" />
+    <NavigationProperty Name="Ventas" Relationship="HQ4AModel.fk_det_venta" FromRole="DetalleVentas" ToRole="Ventas" />
+  </EntityType>
+  <EntityType Name="Ventas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Fecha" Type="DateTime" Precision="3" />
+    <Property Name="monto" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Id_cliente" Type="Int32" />
+    <NavigationProperty Name="DetalleVentas" Relationship="HQ4AModel.fk_det_venta" FromRole="Ventas" ToRole="DetalleVentas" />
+    <NavigationProperty Name="Usuarios" Relationship="HQ4AModel.fk_venta_cliente" FromRole="Ventas" ToRole="Usuarios" />
+  </EntityType>
+  <Association Name="fk_det_venta">
+    <End Type="HQ4AModel.Ventas" Role="Ventas" Multiplicity="0..1" />
+    <End Type="HQ4AModel.DetalleVentas" Role="DetalleVentas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ventas">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DetalleVentas">
+        <PropertyRef Name="Id_venta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_venta_cliente">
+    <End Type="HQ4AModel.Usuarios" Role="Usuarios" Multiplicity="0..1" />
+    <End Type="HQ4AModel.Ventas" Role="Ventas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuarios">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Ventas">
+        <PropertyRef Name="Id_cliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

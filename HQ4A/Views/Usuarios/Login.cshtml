@@ -1,0 +1,27 @@
+﻿@model HQ4A.Models.Usuarios
+
+@{
+    ViewBag.Title = "Inciar Sesión";
+}
+
+<h2 class="text-center text-info">Inicie Sesión</h2>
+
+<div class="form-group row justify-content-center">
+    <div class="col-md-6">
+        @using (Html.BeginForm())
+        {
+            @Html.DisplayNameFor(x => x.Nombre)
+            @Html.EditorFor(x => x.Nombre, new { htmlAttributes = new { @class = "form-control", @type = "text" } })
+            @Html.ValidationMessageFor(x => x.Nombre, null, new { @class = "text-danger" })
+            <br />
+            @Html.DisplayNameFor(x => x.Pwd)
+            @Html.EditorFor(x => x.Pwd, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
+            @Html.ValidationMessageFor(x => x.Pwd, null, new { @class = "text-danger" })
+            <br />
+            <input type="submit" value="Iniciar Sesión" class="btn btn-primary btn-sm" />
+            @Html.ActionLink("¿No tiene cuenta?", "RegistrarUsuario", null, new { @class = "btn btn-link btn-sm" })
+        }
+        <p class="text-danger mt-3">@ViewBag.Error</p>
+    </div>
+</div>
+

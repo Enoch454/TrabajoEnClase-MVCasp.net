@@ -1,0 +1,22 @@
+﻿@model HQ4A.Models.Usuarios
+
+@{
+    ViewBag.Title = "Registro de Usuario";
+}
+
+<h2 class="text-center text-info">Ingresa los siguientes datos para crear tu cuenta:</h2>
+
+<div class="form-group row">
+    <div class="col-md-6">
+        @using (Html.BeginForm())
+        {
+            @Html.DisplayNameFor(x => x.Nombre)
+            @Html.EditorFor(x => x.Nombre, new { htmlAttributes = new { @class = "form-control", @type = "text" } })
+            <br />
+            @Html.DisplayNameFor(x => x.Pwd)
+            @Html.EditorFor(x => x.Pwd, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
+            <br />
+            <input type="submit" value="Iniciar Sesión" class="btn btn-primary btn-sm" />
+        }
+    </div>
+</div>

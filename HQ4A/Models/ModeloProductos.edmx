@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HQ4AModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DetalleVentas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Cantidad" Type="int" />
+          <Property Name="Subtotal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Id_venta" Type="int" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreProducto" Type="varchar" MaxLength="100" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Stock" Type="int" />
+          <Property Name="IdProveedor" Type="int" />
+        </EntityType>
+        <EntityType Name="Proveedores">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreProveedor" Type="varchar" MaxLength="100" />
+          <Property Name="Correo" Type="varchar" MaxLength="200" />
+          <Property Name="RFC" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Rol" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" />
+          <Property Name="Pwd" Type="varchar" MaxLength="100" />
+          <Property Name="IdRol" Type="int" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="monto" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Id_cliente" Type="int" />
+        </EntityType>
+        <Association Name="fk_det_venta">
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="0..1" />
+          <End Role="DetalleVentas" Type="Self.DetalleVentas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ventas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetalleVentas">
+              <PropertyRef Name="Id_venta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_prod_prov">
+          <End Role="Proveedores" Type="Self.Proveedores" Multiplicity="0..1" />
+          <End Role="Productos" Type="Self.Productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedores">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Productos">
+              <PropertyRef Name="IdProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ro_usu">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Usuarios">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_venta_cliente">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="Id_cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HQ4AModelStoreContainer">
+          <EntitySet Name="DetalleVentas" EntityType="Self.DetalleVentas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proveedores" EntityType="Self.Proveedores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ventas" EntityType="Self.Ventas" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_det_venta" Association="Self.fk_det_venta">
+            <End Role="Ventas" EntitySet="Ventas" />
+            <End Role="DetalleVentas" EntitySet="DetalleVentas" />
+          </AssociationSet>
+          <AssociationSet Name="fk_prod_prov" Association="Self.fk_prod_prov">
+            <End Role="Proveedores" EntitySet="Proveedores" />
+            <End Role="Productos" EntitySet="Productos" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ro_usu" Association="Self.fk_ro_usu">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Usuarios" EntitySet="Usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="fk_venta_cliente" Association="Self.fk_venta_cliente">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HQ4AModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreProducto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Stock" Type="Int32" />
+          <Property Name="IdProveedor" Type="Int32" />
+          <NavigationProperty Name="Proveedores" Relationship="Self.fk_prod_prov" FromRole="Productos" ToRole="Proveedores" />
+        </EntityType>
+        <EntityType Name="Proveedores">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreProveedor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="RFC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Productos" Relationship="Self.fk_prod_prov" FromRole="Proveedores" ToRole="Productos" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Pwd" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IdRol" Type="Int32" />
+          <NavigationProperty Name="Roles" Relationship="HQ4AModel.fk_ro_usu" FromRole="Usuarios" ToRole="Roles" />
+          <NavigationProperty Name="Ventas" Relationship="HQ4AModel.fk_venta_cliente" FromRole="Usuarios" ToRole="Ventas" />
+        </EntityType>
+        <Association Name="fk_prod_prov">
+          <End Role="Proveedores" Type="Self.Proveedores" Multiplicity="0..1" />
+          <End Role="Productos" Type="Self.Productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedores">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Productos">
+              <PropertyRef Name="IdProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HQ4AEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Productos" EntityType="Self.Productos" />
+          <EntitySet Name="Proveedores" EntityType="Self.Proveedores" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" />
+          <AssociationSet Name="fk_prod_prov" Association="Self.fk_prod_prov">
+            <End Role="Proveedores" EntitySet="Proveedores" />
+            <End Role="Productos" EntitySet="Productos" />
+          </AssociationSet>
+          <EntitySet Name="Roles" EntityType="HQ4AModel.Roles" />
+          <AssociationSet Name="fk_ro_usu" Association="HQ4AModel.fk_ro_usu">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Usuarios" EntitySet="Usuarios" />
+          </AssociationSet>
+          <EntitySet Name="DetalleVentas" EntityType="HQ4AModel.DetalleVentas" />
+          <EntitySet Name="Ventas" EntityType="HQ4AModel.Ventas" />
+          <AssociationSet Name="fk_det_venta" Association="HQ4AModel.fk_det_venta">
+            <End Role="Ventas" EntitySet="Ventas" />
+            <End Role="DetalleVentas" EntitySet="DetalleVentas" />
+          </AssociationSet>
+          <AssociationSet Name="fk_venta_cliente" Association="HQ4AModel.fk_venta_cliente">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Rol" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Usuarios" Relationship="HQ4AModel.fk_ro_usu" FromRole="Roles" ToRole="Usuarios" />
+        </EntityType>
+        <Association Name="fk_ro_usu">
+          <End Type="HQ4AModel.Roles" Role="Roles" Multiplicity="0..1" />
+          <End Type="HQ4AModel.Usuarios" Role="Usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Usuarios">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DetalleVentas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Cantidad" Type="Int32" />
+          <Property Name="Subtotal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Id_venta" Type="Int32" />
+          <NavigationProperty Name="Ventas" Relationship="HQ4AModel.fk_det_venta" FromRole="DetalleVentas" ToRole="Ventas" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="monto" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Id_cliente" Type="Int32" />
+          <NavigationProperty Name="DetalleVentas" Relationship="HQ4AModel.fk_det_venta" FromRole="Ventas" ToRole="DetalleVentas" />
+          <NavigationProperty Name="Usuarios" Relationship="HQ4AModel.fk_venta_cliente" FromRole="Ventas" ToRole="Usuarios" />
+        </EntityType>
+        <Association Name="fk_det_venta">
+          <End Type="HQ4AModel.Ventas" Role="Ventas" Multiplicity="0..1" />
+          <End Type="HQ4AModel.DetalleVentas" Role="DetalleVentas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ventas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetalleVentas">
+              <PropertyRef Name="Id_venta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_venta_cliente">
+          <End Type="HQ4AModel.Usuarios" Role="Usuarios" Multiplicity="0..1" />
+          <End Type="HQ4AModel.Ventas" Role="Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="Id_cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HQ4AModelStoreContainer" CdmEntityContainer="HQ4AEntities">
+    <EntitySetMapping Name="Productos">
+      <EntityTypeMapping TypeName="IsTypeOf(HQ4AModel.Productos)">
+        <MappingFragment StoreEntitySet="Productos">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="NombreProducto" ColumnName="NombreProducto" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Precio" ColumnName="Precio" />
+          <ScalarProperty Name="Stock" ColumnName="Stock" />
+          <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Proveedores">
+      <EntityTypeMapping TypeName="IsTypeOf(HQ4AModel.Proveedores)">
+        <MappingFragment StoreEntitySet="Proveedores">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="NombreProveedor" ColumnName="NombreProveedor" />
+          <ScalarProperty Name="Correo" ColumnName="Correo" />
+          <ScalarProperty Name="RFC" ColumnName="RFC" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Usuarios">
+      <EntityTypeMapping TypeName="IsTypeOf(HQ4AModel.Usuarios)">
+        <MappingFragment StoreEntitySet="Usuarios">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Pwd" ColumnName="Pwd" />
+          <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="IsTypeOf(HQ4AModel.Roles)">
+        <MappingFragment StoreEntitySet="Roles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Rol" ColumnName="Rol" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+          <EntitySetMapping Name="DetalleVentas">
+            <EntityTypeMapping TypeName="HQ4AModel.DetalleVentas">
+              <MappingFragment StoreEntitySet="DetalleVentas">
+                <ScalarProperty Name="Id_venta" ColumnName="Id_venta" />
+                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ventas">
+            <EntityTypeMapping TypeName="HQ4AModel.Ventas">
+              <MappingFragment StoreEntitySet="Ventas">
+                <ScalarProperty Name="Id_cliente" ColumnName="Id_cliente" />
+                <ScalarProperty Name="monto" ColumnName="monto" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<HQ4A.Models.Productos>
+
+@{
+    ViewBag.Title = "Productos";
+}
+
+<h2>Lista de Productos en Inventario</h2>
+<br />
+<p>
+    @Html.ActionLink("Agregar Producto", "AgregarProducto", null, new { @class = "btn btn-success" })
+    @Html.ActionLink("Ver Carrito", "Cart", null, new { @class = "btn btn-primary rounded-pill" })
+    @Html.ActionLink("Cerrar Sesión", "LogOut", "Usuarios", null, new { @class = "btn btn-danger rounded-pill" })
+</p>
+
+
+<table class="table table-borderless table-hover">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(x => x.NombreProducto)</th>
+            <th>@Html.DisplayNameFor(x => x.Descripcion)</th>
+            <th>@Html.DisplayNameFor(x => x.Precio)</th>
+            <th>@Html.DisplayNameFor(x => x.Stock)</th>
+            <th>@Html.DisplayNameFor(x => x.Proveedores.NombreProveedor)</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var producto in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(x => producto.NombreProducto)</td>
+                <td>@Html.DisplayFor(x => producto.Descripcion)</td>
+                <td>@Html.DisplayFor(x => producto.Precio)</td>
+                <td>@Html.DisplayFor(x => producto.Stock)</td>
+                <td>@Html.DisplayFor(x => producto.Proveedores.NombreProveedor)</td>
+                <td>@Html.ActionLink("Ver Detalles", "Detalles", new { Id = producto.Id }, new { @class = "btn btn-sm btn-info" })</td>
+                <td>@Html.ActionLink("Actualizar", "Actualizar", new { Id = producto.Id }, new { @class = "btn btn-sm btn-warning" })</td>
+                <td>@Html.ActionLink("Eliminar", "DeleteProduct", new { Id = producto.Id }, new { @class = "btn btn-sm btn-danger" })</td>
+                <td>@Html.ActionLink("Add to Cart", "AddToCart", new { Id = producto.Id }, new { @class = "btn btn-sm btn-success" })</td>
+            </tr>
+        }
+    </tbody>
+</table>

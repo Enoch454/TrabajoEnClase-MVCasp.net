@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>Nombre de la vista: Index</h1>
+<h2>Mensaje de la Acción Acerca de: @TempData["Mensaje"]</h2>
+
+<br />
+<h3>Hipervinculo con etiqueta a...</h3>
+<a href="/Home/FAQ" class="btn btn-outline-primary">Ir a FAQ con etiqueta normal a</a>
+<br />
+<h3>Hipervinculo con Razor...</h3>
+@Html.ActionLink("Ir a FAQ con Razor", "FAQ", "Home", null, new { @class = "btn btn-outline-success" })
+<!--For Home/FAQ?Id=10 *** new { Id = 10 }-->
